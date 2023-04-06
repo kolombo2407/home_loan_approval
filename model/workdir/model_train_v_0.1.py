@@ -1,11 +1,8 @@
-import os
 import pandas as pd
 import numpy as np
-import scipy
 import pickle
-import psycopg2
 
-from sklearn.base import BaseEstimator, TransformerMixin
+
 from sklearn.ensemble import BaggingClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import precision_recall_curve, auc, f1_score
@@ -79,4 +76,11 @@ precision, recall, threshold = precision_recall_curve(y_test, y_scored)
 pr_auc = auc(recall, precision)
 f1 = f1_score(y_test, y_scored)
 
-print(pr_auc, f1)
+print(f'score: {grid_search.score(X_test,y_test):.3f}, pr_auc: {pr_auc:.2f}, f1: {f1:.2f}')
+
+
+save_model = '../model_saved/'+'bagging_v_0.1.pkl'
+
+with open(save_model, 'wb') as f:
+    pickle.dump(grid_search, f)
+    print('Model saved')
